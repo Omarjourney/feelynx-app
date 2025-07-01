@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feelynx - Adult Social Video Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Mascot -->
+    <div class="mascot" id="mascot">
+        <svg width="64" height="80" viewBox="0 0 64 80" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                </linearGradient>
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+            <!-- Body -->
+            <ellipse cx="32" cy="50" rx="20" ry="25" fill="url(#bodyGradient)" filter="url(#glow)" class="mascot-body"/>
+            <!-- Horns -->
+            <polygon points="20,20 18,10 22,10" fill="#8b5cf6" class="horn-left"/>
+            <polygon points="44,20 42,10 46,10" fill="#8b5cf6" class="horn-right"/>
+            <!-- Eyes -->
+            <circle cx="26" cy="35" r="3" fill="#fff" class="eye-left"/>
+            <circle cx="38" cy="35" r="3" fill="#fff" class="eye-right"/>
+            <circle cx="26" cy="35" r="1.5" fill="#000" class="pupil-left"/>
+            <circle cx="38" cy="35" r="1.5" fill="#000" class="pupil-right"/>
+            <!-- Mouth -->
+            <path d="M 28 42 Q 32 46 36 42" stroke="#fff" stroke-width="2" fill="none" class="mouth"/>
+            <!-- Tail -->
+            <path d="M 12 55 Q 5 50 8 45 Q 12 48 10 52" fill="#ec4899" class="tail"/>
+        </svg>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Banner Notification -->
+        <div class="banner-notification" id="bannerNotification">
+            <div class="banner-content">
+                <span class="banner-icon">🎉</span>
+                <span class="banner-text">Welcome to Feelynx! Adult (17+) platform. Follow community guidelines.</span>
+                <button class="banner-close" onclick="closeBanner()">&times;</button>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notifications-container" id="notificationsContainer"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Home Tab -->
+            <div class="tab-content active" id="homeTab">
+                <div class="popular-carousel">
+                    <h2 class="section-title">🔥 Popular Now</h2>
+                    <div class="carousel-container">
+                        <div class="popular-creators" id="popularCreators"></div>
+                    </div>
+                </div>
+                
+                <div class="live-creators-section">
+                    <h2 class="section-title">📺 Live Now</h2>
+                    <div class="creators-grid" id="creatorsGrid"></div>
+                </div>
+            </div>
+
+            <!-- Calls Tab -->
+            <div class="tab-content" id="callsTab">
+                <h2 class="section-title">📞 Video & Voice Calls</h2>
+                <div class="calls-list" id="callsList"></div>
+            </div>
+
+            <!-- Go Live Tab -->
+            <div class="tab-content" id="goLiveTab">
+                <div class="go-live-content">
+                    <div class="go-live-icon">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="50" fill="#10b981" opacity="0.2" class="pulse-ring"/>
+                            <circle cx="60" cy="60" r="35" fill="#10b981" class="camera-bg"/>
+                            <path d="M45 45 L45 75 L75 60 Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <h2>Start Broadcasting</h2>
+                    <p>Share your moment with the world</p>
+                    <button class="btn btn--primary btn--lg go-live-btn">Go Live Now</button>
+                </div>
+            </div>
+
+            <!-- Groups Tab -->
+            <div class="tab-content" id="groupsTab">
+                <h2 class="section-title">👥 Groups</h2>
+                <div class="groups-container">
+                    <div class="groups-actions">
+                        <button class="btn btn--primary btn--sm">Create Group</button>
+                        <button class="btn btn--outline btn--sm">Join Group</button>
+                    </div>
+                    <div class="groups-list" id="groupsList"></div>
+                </div>
+            </div>
+
+            <!-- Messages Tab -->
+            <div class="tab-content" id="messagesTab">
+                <h2 class="section-title">💬 Messages</h2>
+                <div class="messages-container">
+                    <div class="messages-list" id="messagesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Token Store Modal -->
+        <div class="modal" id="tokenModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>💎 Token Store</h3>
+                    <button class="modal-close" onclick="closeTokenModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="token-balance">
+                        <span class="balance-label">Current Balance:</span>
+                        <span class="balance-amount" id="tokenBalance">1,250 tokens</span>
+                    </div>
+                    <div class="token-packs" id="tokenPacks"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item" data-tab="homeTab">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" data-tab="callsTab">
+                <span class="nav-icon">📞</span>
+                <span class="nav-label">Calls</span>
+            </button>
+            <button class="nav-item go-live-nav" data-tab="goLiveTab">
+                <span class="nav-icon neon-green">📹</span>
+                <span class="nav-label">Go Live</span>
+            </button>
+            <button class="nav-item" data-tab="groupsTab">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Groups</span>
+            </button>
+            <button class="nav-item" data-tab="messagesTab">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+                <span class="notification-badge" id="messagesBadge">2</span>
+            </button>
+        </nav>
+
+        <!-- Floating Token Button -->
+        <button class="floating-token-btn" onclick="openTokenModal()">
+            <span class="token-icon">💎</span>
+            <span class="token-count" id="floatingTokenCount">1,250</span>
+        </button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
